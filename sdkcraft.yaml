@@ -7,7 +7,7 @@ description: |
   Manages a shared virtual environment via a slot and aliases pip to uv pip
   for compatibility. Package cache is persisted on the host to speed up
   dependency installations across workshop updates.
-license: MIT
+license: Apache-2.0 OR MIT
 platforms:
   amd64:
   arm64:
@@ -15,12 +15,11 @@ platforms:
 parts:
   uv:
     plugin: rust
-    source: https://github.com/astral-sh/uv
-    source-tag: $CRAFT_PROJECT_VERSION
-    source-type: git
+    source: .
     override-pull: |
       VERSION=$(cat "$CRAFT_PROJECT_DIR/VERSION")
       craftctl set version="$VERSION"
+      git clone --depth 1 --branch "$VERSION" https://github.com/astral-sh/uv.git .
       craftctl default
     organize:
       uv: bin/uv
