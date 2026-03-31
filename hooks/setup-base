@@ -1,0 +1,31 @@
+# directory for the UV venv slot
+sudo -u workshop mkdir -p /home/workshop/uv-venv
+
+cat <<EOF >> /etc/profile.d/uv.sh
+PATH="$SDK/bin:\$PATH"
+EOF
+
+"$SDK"/bin/uv generate-shell-completion bash > /etc/bash_completion.d/uv.sh
+"$SDK"/bin/uvx --generate-shell-completion bash > /etc/bash_completion.d/uvx.sh
+
+ALT_DIR="/usr/local/libexec/alternatives"
+mkdir -p "$ALT_DIR"
+
+cat << 'EOF' > "$ALT_DIR/uv-pip"
+#!/bin/bash
+exec uv pip "$@"
+EOF
+
+chmod +x "$ALT_DIR/uv-pip"
+
+# Divert first - this moves any existing /usr/bin/pip out of the way
+# Check if divert doesn't exist before adding (idempotent)
+if ! dpkg-divert --list /usr/bin/pip | grep -q .; then
+    dpkg-divert --add --rename --divert /usr/bin/pip.distrib /usr/bin/pip
+fi
+
+# Then install the alternative (creates the symlink)
+update-alternatives --install /usr/bin/pip pip "$ALT_DIR/uv-pip" 50
+
+# Lock it to manual mode so packages can't change it
+update-alternatives --set pip "$ALT_DIR/uv-pip"

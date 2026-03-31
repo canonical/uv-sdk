@@ -1,0 +1,40 @@
+name: uv
+adopt-info: uv
+base: ubuntu@24.04
+summary: An extremely fast Python package and project manager
+description: |
+  This SDK provides uv and uvx for Python package and project management.
+  Manages a shared virtual environment via a slot and aliases pip to uv pip
+  for compatibility. Package cache is persisted on the host to speed up
+  dependency installations across workshop updates.
+license: MIT
+platforms:
+  amd64:
+  arm64:
+
+parts:
+  uv:
+    plugin: rust
+    source: https://github.com/astral-sh/uv
+    source-tag: $CRAFT_PROJECT_VERSION
+    source-type: git
+    override-pull: |
+      VERSION=$(cat "$CRAFT_PROJECT_DIR/VERSION")
+      craftctl set version="$VERSION"
+      craftctl default
+    organize:
+      uv: bin/uv
+      uvx: bin/uvx
+    prime:
+      - bin/uv
+      - bin/uvx
+
+plugs:
+  cache:
+    interface: mount
+    workshop-target: /home/workshop/.cache/uv
+
+slots:
+  venv:
+    interface: mount
+    workshop-source: /home/workshop/uv-venv

@@ -1,0 +1,9 @@
+cat <<EOF >> ~/.profile 
+
+# SDK uses 'mount' interface to preserve 
+# uv cache across refreshes, thus, hardlinking is 
+# not available on 'uv sync'.
+export UV_LINK_MODE=copy
+EOF
+
+uv venv --system-site-packages /home/workshop/uv-venv
