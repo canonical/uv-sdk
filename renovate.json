@@ -19,13 +19,12 @@
     }
   ],
   "baseBranchPatterns": [
-    "0.9"
+    "latest"
   ],
   "packageRules": [
     {
       "matchPackageNames": ["astral-sh/uv"],
-      "matchBaseBranches": ["0.9"],
-      "allowedVersions": "/^0\\.9\\./"
+      "matchBaseBranches": ["latest"]
     }
   ]
 }
