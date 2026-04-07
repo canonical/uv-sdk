@@ -21,6 +21,7 @@ jobs:
     with:
       platforms: '["amd64"]'
       track: latest
+      risk: stable
     secrets:
       SDKCRAFT_STORE_CREDENTIALS: ${{ secrets.SDKCRAFT_STORE_CREDENTIALS_STAGING }}
   build-and-upload-arm64:
@@ -29,5 +30,6 @@ jobs:
       platforms: '["arm64"]'
       runs-on: '["self-hosted-linux-arm64-noble-xlarge"]'
       track: latest
+      risk: stable
     secrets:
       SDKCRAFT_STORE_CREDENTIALS: ${{ secrets.SDKCRAFT_STORE_CREDENTIALS_STAGING }}
