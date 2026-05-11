@@ -15,7 +15,7 @@ name: python-app
 base: ubuntu@24.04
 sdks:
   - name: uv
-    channel: 0.9/stable
+    channel: latest/stable
 
 actions:
   lint: |
