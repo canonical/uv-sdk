@@ -103,7 +103,7 @@ mount does not support hardlinks.
 ## Documentation and guidance
 
 - [uv official documentation](https://docs.astral.sh/uv/)
-- [Workshop documentation](https://canonical-workshop.readthedocs-hosted.com/latest/)
+- [Workshop documentation](https://ubuntu.com/workshop/docs/)
 
 ---
 
@@ -112,7 +112,7 @@ mount does not support hardlinks.
 - uv community:
   [GitHub Discussions](https://github.com/astral-sh/uv/discussions)
 - Workshop forum:
-  [Workshop Discourse](https://discourse.canonical.com/c/engineering/workshops/34)
+  [Discourse](https://discourse.ubuntu.com/)
 - Please review our
   [Code of Conduct](https://ubuntu.com/community/ethos/code-of-conduct) before
   participating.
