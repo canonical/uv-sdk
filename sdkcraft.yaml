@@ -1,6 +1,6 @@
 name: uv
 adopt-info: uv
-base: ubuntu@24.04
+base: ubuntu@26.04
 summary: An extremely fast Python package and project manager
 description: |
   This SDK provides uv and uvx for Python package and project management.
