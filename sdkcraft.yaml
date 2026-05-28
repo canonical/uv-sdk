@@ -16,6 +16,11 @@ parts:
   uv:
     plugin: rust
     source: .
+    build-packages:
+      - clang
+    build-environment:
+      - CC: clang
+      - CXX: clang++
     override-pull: |
       VERSION=$(cat "$CRAFT_PROJECT_DIR/VERSION")
       craftctl set version="$VERSION"
