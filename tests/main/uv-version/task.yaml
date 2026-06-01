@@ -1,0 +1,17 @@
+summary: Verify uv reports the packed SDK version
+
+prepare: |
+  envsubst '${BASE}' < workshop.yaml.in > workshop.yaml
+  workshop launch
+
+execute: |
+  EXPECTED_REGEX="${EXPECTED_VERSION//./\\.}"
+  workshop exec -- bash -lc 'uv --version' | MATCH "uv ${EXPECTED_REGEX}"
+
+debug: |
+  workshop tasks
+  printf 'EXPECTED_VERSION=%s\n' "${EXPECTED_VERSION}"
+  workshop exec -- bash -lc 'uv --version; command -v uv; ls -l $(command -v uv)'
+
+restore: |
+  workshop remove || true

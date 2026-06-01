@@ -1,0 +1,15 @@
+summary: Launch a workshop with the uv SDK
+
+prepare: |
+  envsubst '${BASE}' < workshop.yaml.in > workshop.yaml
+  workshop launch
+
+execute: |
+  workshop exec -- true
+
+debug: |
+  workshop tasks
+  workshop exec -- bash -lc 'id; env | sort | grep -E "^(PATH|UV_LINK_MODE)=" || true'
+
+restore: |
+  workshop remove || true

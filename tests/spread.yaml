@@ -1,0 +1,17 @@
+project: uv
+
+path: /home/ubuntu/project
+
+backends:
+  lxd:
+    systems:
+      - ubuntu-24.04:
+          username: ubuntu
+          vm: true
+
+suites:
+  main/:
+    summary: Test the uv SDK inside workshops with different bases
+    environment:
+      BASE/noble: ubuntu@24.04
+      EXPECTED_VERSION: '$(HOST: cat "`git rev-parse --show-toplevel`/VERSION")'

@@ -1,0 +1,17 @@
+summary: Verify pip is routed through the uv pip alternative
+
+prepare: |
+  envsubst '${BASE}' < workshop.yaml.in > workshop.yaml
+  workshop launch
+
+execute: |
+  workshop exec -- bash -lc 'command -v pip' | MATCH '/pip$'
+  workshop exec -- bash -lc 'update-alternatives --query pip' | MATCH '/usr/local/libexec/alternatives/uv-pip'
+  workshop exec -- bash -lc 'test "$(readlink -f /usr/bin/pip)" = /usr/local/libexec/alternatives/uv-pip'
+
+debug: |
+  workshop tasks
+  workshop exec -- bash -lc 'command -v pip; readlink -f /usr/bin/pip; update-alternatives --query pip; sed -n "1,20p" /usr/local/libexec/alternatives/uv-pip'
+
+restore: |
+  workshop remove || true
