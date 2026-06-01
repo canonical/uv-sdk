@@ -1,0 +1,19 @@
+summary: Verify uv environment, cache, venv, and completions are configured
+
+prepare: |
+  envsubst '${BASE}' < workshop.yaml.in > workshop.yaml
+  workshop launch
+
+execute: |
+  workshop exec -- bash -lc 'test "$UV_LINK_MODE" = copy'
+  workshop exec -- bash -lc 'test -d /home/workshop/.cache/uv'
+  workshop exec -- bash -lc 'test -d /home/workshop/uv-venv'
+  workshop exec -- bash -lc 'test -s /etc/bash_completion.d/uv.sh'
+  workshop exec -- bash -lc 'test -s /etc/bash_completion.d/uvx.sh'
+
+debug: |
+  workshop tasks
+  workshop exec -- bash -lc 'printf "UV_LINK_MODE=%s\n" "$UV_LINK_MODE"; ls -ld /home/workshop/.cache/uv /home/workshop/uv-venv; ls -l /etc/bash_completion.d/uv.sh /etc/bash_completion.d/uvx.sh'
+
+restore: |
+  workshop remove || true
