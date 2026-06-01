@@ -1,0 +1,54 @@
+summary: Build and test a Python project with uv
+
+prepare: |
+  envsubst '${BASE}' < workshop.yaml.in > workshop.yaml
+  workshop launch
+
+execute: |
+  workshop exec -- bash -lc '
+  set -eu
+  mkdir -p /home/workshop/demo/src/demo /home/workshop/demo/tests
+  cd /home/workshop/demo
+  cat > pyproject.toml <<EOF
+  [project]
+  name = "uv-sdk-demo"
+  version = "0.1.0"
+  requires-python = ">=3.12"
+  dependencies = ["packaging==24.2"]
+
+  [dependency-groups]
+  dev = ["pytest==8.3.4"]
+
+  [tool.pytest.ini_options]
+  pythonpath = ["src"]
+  EOF
+  cat > src/demo/__init__.py <<EOF
+  from packaging.version import Version
+
+  def normalise(version: str) -> str:
+      return str(Version(version))
+  EOF
+  cat > src/demo/__main__.py <<EOF
+  from demo import normalise
+
+  version = "1.2.0"
+  print(f"normalised={normalise(version)}")
+  EOF
+  cat > tests/test_demo.py <<EOF
+  from demo import normalise
+
+  def test_normalise_version():
+      assert normalise("1.2.0") == "1.2.0"
+  EOF
+  uv run pytest
+  uv run python -m demo | grep -q "normalised=1.2.0"
+  test -d /home/workshop/.cache/uv
+  find /home/workshop/.cache/uv -mindepth 1 -maxdepth 3 | grep -q .
+  '
+
+debug: |
+  workshop tasks
+  workshop exec -- bash -lc 'uv --version; find /home/workshop/demo -maxdepth 3 -type f -print || true; find /home/workshop/.cache/uv -maxdepth 3 -type d -print | head -50 || true'
+
+restore: |
+  workshop remove || true

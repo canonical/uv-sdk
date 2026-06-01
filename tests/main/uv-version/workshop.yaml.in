@@ -1,0 +1,4 @@
+name: test-uv
+base: ${BASE}
+sdks:
+  - name: try-uv

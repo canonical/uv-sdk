@@ -1,0 +1,16 @@
+summary: Verify uv and uvx are available on PATH
+
+prepare: |
+  envsubst '${BASE}' < workshop.yaml.in > workshop.yaml
+  workshop launch
+
+execute: |
+  workshop exec -- bash -lc 'command -v uv' | MATCH '/uv$'
+  workshop exec -- bash -lc 'command -v uvx' | MATCH '/uvx$'
+
+debug: |
+  workshop tasks
+  workshop exec -- bash -lc 'printf "PATH=%s\n" "$PATH"; ls -l /etc/profile.d/uv.sh /etc/bash_completion.d/uv.sh /etc/bash_completion.d/uvx.sh; cat /etc/profile.d/uv.sh'
+
+restore: |
+  workshop remove || true
