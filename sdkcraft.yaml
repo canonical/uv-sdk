@@ -1,6 +1,5 @@
 name: uv
 adopt-info: uv
-base: ubuntu@26.04
 summary: An extremely fast Python package and project manager
 description: |
   This SDK provides uv and uvx for Python package and project management.
@@ -9,8 +8,12 @@ description: |
   dependency installations across workshop updates.
 license: Apache-2.0 OR MIT
 platforms:
-  amd64:
-  arm64:
+  ubuntu@26.04:amd64:
+  ubuntu@26.04:arm64:
+  ubuntu@24.04:amd64:
+  ubuntu@24.04:arm64:
+  ubuntu@22.04:amd64:
+  ubuntu@22.04:arm64:
 
 parts:
   uv:
