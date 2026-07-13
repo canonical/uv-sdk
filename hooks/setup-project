@@ -5,5 +5,3 @@ cat <<EOF >> ~/.profile
 # not available on 'uv sync'.
 export UV_LINK_MODE=copy
 EOF
-
-uv venv --system-site-packages /home/workshop/uv-venv
