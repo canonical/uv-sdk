@@ -2,13 +2,12 @@
 # setup-base (which runs before any SDK's setup-project) so consumer SDKs such
 # as openvino and jupyter find it already present and don't race to create it.
 # Run as the workshop user so the venv is owned by workshop -- setup-base runs
-# as root. `env HOME=...` sets the home directory explicitly rather than relying
-# on sudo to do it, which keeps behaviour consistent across sudo and sudo-rs
-# (the default on Ubuntu 26.04). uv is referenced by absolute path so it is
-# found regardless of the sanitized PATH under sudo.
-sudo -u workshop mkdir -p /home/workshop/uv-venv
+# as root. `sudo -i` uses a login shell so HOME is set to workshop's home. uv is
+# referenced by absolute path so it is found regardless of the sanitized PATH
+# under sudo.
+sudo -iu workshop mkdir -p /home/workshop/uv-venv
 if [ ! -f /home/workshop/uv-venv/pyvenv.cfg ]; then
-    sudo -u workshop env HOME=/home/workshop "$SDK"/bin/uv venv --system-site-packages /home/workshop/uv-venv
+    sudo -iu workshop "$SDK"/bin/uv venv --system-site-packages /home/workshop/uv-venv
 fi
 
 cat <<EOF >> /etc/profile.d/uv.sh
