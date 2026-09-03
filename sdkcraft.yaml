@@ -7,6 +7,7 @@ description: |
   for compatibility. Package cache is persisted on the host to speed up
   dependency installations across workshop updates.
 license: Apache-2.0 OR MIT
+website: https://github.com/canonical/uv-sdk
 platforms:
   ubuntu@26.04:amd64:
   ubuntu@26.04:arm64:
